@@ -8,21 +8,21 @@ import os
 import sys
 import argparse
 
+def is_int(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 def sum_seq(infile):
     sum = 0
-    sequence = []
-    
-    map(sequence.extend, infile.readline())
-#     print(sequence)
-#     print("length = %s" % len(sequence))
-    for i in range(0,len(sequence)-1):
-        if sequence[i] == "\n":
-            break
-        elif sequence[i] == sequence[i+1]:
+    sequence_raw = []
+    map(sequence_raw.extend, infile.readline())
+    sequence = filter(lambda n: is_int(n), sequence_raw)
+    for i in range(0,len(sequence)):
+        if sequence[i] == sequence[(i+1)%len(sequence)]:
             sum += int(sequence[i])
-        elif sequence[i+1] == "\n" and sequence[i] == sequence[0]:
-            sum += int(sequence[i])
-#         print(i, sequence[i], sum)
     return sum
 
 def main(arguments):
